@@ -2,8 +2,7 @@
 ##### Get a weather forecast directly in Neovim
 [![Lua](https://img.shields.io/badge/Lua-blue.svg?style=for-the-badge&logo=lua)](http://www.lua.org)
 
-## ChatGPT in his own words
-This plugin was written using ChatGPT (model: o3-mini-high)
+### This plugin was written using ChatGPT (model: o3-mini-high)
 
 ## ChatGPT in his own words
 
