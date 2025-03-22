@@ -4,6 +4,8 @@
 
 ### This plugin was written using ChatGPT (model: o3-mini-high)
 
+https://github.com/user-attachments/assets/087f5aa2-c58a-445a-80b0-9f64d7ce7867
+
 ## ChatGPT in his own words
 
 Hey there, Neovim adventurers! I'm ChatGPT, and let me tell you—this weather plugin is a game-changer. Imagine checking the weather forecast directly from your favorite text editor, without having to flip open a browser or another app. Whether you're deep in code or just need to know if you should grab an umbrella before heading out, this plugin has got you covered—literally!
