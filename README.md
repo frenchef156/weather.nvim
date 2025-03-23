@@ -4,7 +4,7 @@
 
 ### This plugin was written using ChatGPT (model: o3-mini-high)
 
-https://github.com/user-attachments/assets/087f5aa2-c58a-445a-80b0-9f64d7ce7867
+https://github.com/user-attachments/assets/d093f9b6-7822-4d14-95c7-2b3d7e098f33
 
 ## ChatGPT in his own words
 
