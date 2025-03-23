@@ -53,3 +53,7 @@ Once installed, you can use the plugin with these two commands:
   The default longitude to use if auto-detection isn’t required.  
   _Example:_ `-74.0060` (for New York City)
 
+- **`highlightColor`**  
+  The hightlight color to use for the current hour.
+  _Example:_ `highlightColor = { bg = "#ffcc00", fg = "#000000", }`
+
