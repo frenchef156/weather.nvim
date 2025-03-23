@@ -1,9 +1,15 @@
 local M = {}
 
+local defaultHighlightColors = {
+	bg = "#ffcc00",  -- bright yellow
+	fg = "#000000",  -- black text for contrast
+}
+
 -- Default configuration: San Francisco coordinates (fallback)
 M.config = {
   latitude = 37.7749,
   longitude = -122.4194,
+  highlightColors = defaultHighlightColors
 }
 
 -- A mapping from weather codes to human-readable descriptions (based on Open-Meteo docs)
@@ -120,6 +126,11 @@ function M.display_weather(data)
   M.create_floating_window(lines, selectedHourLine)
 end
 
+-- Function to validate hex color strings like "#RRGGBB"
+local function is_valid_hex(color)
+  return type(color) == "string" and color:match("^#%x%x%x%x%x%x$")
+end
+
 -- Create and display a floating window with the provided lines
 function M.create_floating_window(lines, selectedHourLine)
   local buf = vim.api.nvim_create_buf(false, true)
@@ -143,11 +154,16 @@ function M.create_floating_window(lines, selectedHourLine)
   if selectedHourLine then
 	local line = selectedHourLine - 1  -- zero-based
 
+	-- Validate user color. Color must have at least one of bg/fg an the bg/fg must be a valid color hex
+	local highlightColors = defaultHighlightColors
+	if M.config.highlightColors and
+		(M.config.highlightColors.bg or M.config.highlightColors.fg) and
+		(not M.config.highlightColors.bg or is_valid_hex(M.config.highlightColors.bg)) and
+		(not M.config.highlightColors.fg or is_valid_hex(M.config.highlightColors.fg)) then
+		highlightColors = M.config.highlightColors
+	end
 	local ns_id = vim.api.nvim_create_namespace("WeatherNamespace")
-	vim.api.nvim_set_hl(0, "WeatherHighlight", {
-		bg = "#ffcc00",  -- bright yellow
-		fg = "#000000",  -- black text for contrast
-	})
+	vim.api.nvim_set_hl(0, "WeatherHighlight", highlightColors)
 	vim.api.nvim_buf_set_extmark(buf, ns_id, line, 0, {
 		end_row = line + 1,
 		hl_group = "WeatherHighlight",
