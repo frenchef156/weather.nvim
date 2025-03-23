@@ -78,6 +78,7 @@ function M.display_weather(data)
   -- Today's hourly forecast
   table.insert(lines, "Weather Forecast for Today (Hourly):")
   table.insert(lines, "------------------------------------")
+  local selectedHourLine = nil
   local today = os.date("%Y-%m-%d")
   local hourly = data.hourly or {}
   if hourly.time and hourly.temperature_2m and hourly.weathercode then
@@ -85,6 +86,9 @@ function M.display_weather(data)
       if time_str:sub(1, 10) == today then
         -- Extract the hour (assumes time format "YYYY-MM-DDTHH:MM")
         local hour = time_str:sub(12, 16)
+		if hour:sub(1, 2) == os.date('%H') then
+			selectedHourLine = 2 + i -- Add 2 for the header lines
+		end
         local temp = hourly.temperature_2m[i]
         local code = hourly.weathercode[i]
         local condition = weather_code_map[code] or ("Code " .. code)
@@ -113,11 +117,11 @@ function M.display_weather(data)
     table.insert(lines, "No daily data available.")
   end
 
-  M.create_floating_window(lines)
+  M.create_floating_window(lines, selectedHourLine)
 end
 
 -- Create and display a floating window with the provided lines
-function M.create_floating_window(lines)
+function M.create_floating_window(lines, selectedHourLine)
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   vim.api.nvim_buf_set_option(buf, "modifiable", false)
@@ -135,6 +139,22 @@ function M.create_floating_window(lines)
   }
 
   vim.api.nvim_open_win(buf, true, opts)
+  -- Highlight the current hour
+  if selectedHourLine then
+	local line = selectedHourLine - 1  -- zero-based
+
+	local ns_id = vim.api.nvim_create_namespace("WeatherNamespace")
+	vim.api.nvim_set_hl(0, "WeatherHighlight", {
+		bg = "#ffcc00",  -- bright yellow
+		fg = "#000000",  -- black text for contrast
+	})
+	vim.api.nvim_buf_set_extmark(buf, ns_id, line, 0, {
+		end_row = line + 1,
+		hl_group = "WeatherHighlight",
+		virt_text = { { "(Now)", "Comment" } },
+		virt_text_pos = "eol",
+	})
+  end
 end
 
 -- Inference of the current location via ip-api.com
