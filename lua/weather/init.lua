@@ -1,6 +1,6 @@
 local M = {}
 
-local defaultHighlightColors = {
+local defaultHighlightColor = {
 	bg = "#ffcc00",  -- bright yellow
 	fg = "#000000",  -- black text for contrast
 }
@@ -9,7 +9,7 @@ local defaultHighlightColors = {
 M.config = {
   latitude = 37.7749,
   longitude = -122.4194,
-  highlightColors = defaultHighlightColors
+  highlightColor = defaultHighlightColor
 }
 
 -- A mapping from weather codes to human-readable descriptions (based on Open-Meteo docs)
@@ -155,12 +155,12 @@ function M.create_floating_window(lines, selectedHourLine)
 	local line = selectedHourLine - 1  -- zero-based
 
 	-- Validate user color. Color must have at least one of bg/fg an the bg/fg must be a valid color hex
-	local highlightColors = defaultHighlightColors
-	if M.config.highlightColors and
-		(M.config.highlightColors.bg or M.config.highlightColors.fg) and
-		(not M.config.highlightColors.bg or is_valid_hex(M.config.highlightColors.bg)) and
-		(not M.config.highlightColors.fg or is_valid_hex(M.config.highlightColors.fg)) then
-		highlightColors = M.config.highlightColors
+	local highlightColors = defaultHighlightColor
+	if M.config.highlightColor and
+		(M.config.highlightColor.bg or M.config.highlightColor.fg) and
+		(not M.config.highlightColor.bg or is_valid_hex(M.config.highlightColor.bg)) and
+		(not M.config.highlightColor.fg or is_valid_hex(M.config.highlightColor.fg)) then
+		highlightColors = M.config.highlightColor
 	end
 	local ns_id = vim.api.nvim_create_namespace("WeatherNamespace")
 	vim.api.nvim_set_hl(0, "WeatherHighlight", highlightColors)
